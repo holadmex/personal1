@@ -3,10 +3,12 @@ pipeline {
     tools {
         jdk 'JDK'
         maven 'Maven'
-
-    stages ('BUILD THE APPLICATION') {
-        steps {
-            sh 'mvn install -Dskiptest'
+    }
+    stages {
+        stage ('BUILD THE APPLICATION') {
+            steps {
+                sh 'mvn install -Dskiptest'
+            }
         }
-    }   
+    }
 }
