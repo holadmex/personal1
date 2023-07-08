@@ -10,5 +10,15 @@ pipeline {
                 sh 'mvn install -Dskiptest'
             }
         }
+        stage ('TEST THE APPLICATION') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage ('UNIT TEST') {
+            steps {
+                sh 'mvn install -DskipUnitTest'
+            }
+        }
     }
 }
