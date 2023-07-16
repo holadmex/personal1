@@ -4,7 +4,7 @@ pipeline
         jdk 'JDK'
         maven 'Maven'
     }
-    stages {
+    stages 
         stage ('FETCH CODE FROM GITHUB') {
             steps{
                 git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
@@ -20,7 +20,6 @@ pipeline
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
-        }
         stage('Test') {
            steps {
                 sh 'mvn test'
@@ -47,6 +46,5 @@ pipeline
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
             }
         }
-    }
     }
 }
