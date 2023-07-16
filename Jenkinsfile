@@ -1,8 +1,8 @@
-pipeline
+pipeline{
     agent any
     tools {
         jdk 'JDK'
-        maven 'Maven'
+        maven 'maven'
     }
     environment {
         SONAR_SCANNER = 'SonarQube Scanner'
@@ -11,7 +11,7 @@ pipeline
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
-                git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
+                git branch: 'ci-jenkins', url: 'https://github.com/afolagbe/personal.git'
             }
         }
         stage ('BUILD THE APPLICATION') {
@@ -40,3 +40,4 @@ pipeline
             }
         }
     }
+}
