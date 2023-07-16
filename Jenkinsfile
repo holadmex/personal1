@@ -1,29 +1,43 @@
-pipeline {
+pipeline{
     agent any
     tools {
         jdk 'JDK'
-        maven 'Maven'
+        maven 'maven'
+    }
+    environment {
+        SONAR_SCANNER = 'SonarQube Scanner'
+        SONAR_SERVER = 'SonarQube Server'
     }
     stages {
-        stage ('FETCH CODE FROM GITHUB') {
-            steps{
+        stage ('PULL THE APPLICATION FROM GITHUB') {
+            steps {
                 git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
             }
         }
-        stage ('BUILD THE CODE') {
+        stage ('BUILD THE APPLICATION') {
             steps {
-                sh 'mvn install -DskipTest'
+                sh 'mvn install -DeskipTest'
             }
-        }    
-        stage ('TEST THE CODE') {
+        }
+        stage ('TEST') {
             steps {
                 sh 'mvn test'
             }
         }
-        stage ('INTEGRATION UNIT TEST') {
+        stage ('UNIT TEST') {
             steps {
-                sh 'mvn install -DskipUnitTest'
+                sh 'mvn test'
+            }
+        }
+        stage ('INTEGRATION TEST') {
+            steps {
+                sh 'mvn verify -DskipUnitTest'
+            }
+        }
+        stage ('CHECKSTYLE ANALYSIS') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
             }
         }
     }
-}    
+}
