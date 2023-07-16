@@ -39,15 +39,14 @@ pipeline{
                 sh 'mvn checkstyle:checkstyle'
             }
         }
-        stage('CODE ANALYSIS with SONARQUBE') {
-          
-          environment {
-             scannerHome = tool "${SONARSCANNER}"
-          }
+        stage ('SONAR ANALYSIS') {
+            environment {
+                scannerHome = tool "${ SONAR_SCANNER}"
+            }
             steps {
-                 withSonarQubeEnv("${SONARSERVER}") {
-                sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+                withSonarQubeEnv("${SONAR_SERVER}") {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -55,6 +54,6 @@ pipeline{
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
             }
-          }
+        }
     }
 }
