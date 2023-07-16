@@ -26,10 +26,6 @@ pipeline
                 sh 'mvn test'
            }
         }       
-        stage('Checkstyle Analysis'){
-            steps {
-                sh 'mvn -s settings.xml checkstyle:checkstyle'
-            }
         stage('CHECKSTYLE ANALYSIS'){
             steps{
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
