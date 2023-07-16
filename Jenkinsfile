@@ -1,4 +1,4 @@
-pipeline {
+pipeline
     agent any
     tools {
         jdk 'JDK'
@@ -10,21 +10,26 @@ pipeline {
                 git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
             }
         }
-        stage ('BUILD THE CODE') {
+        stage('Build') {
             steps {
-                sh 'mvn install -DskipTest'
+                sh 'mvn -s settings.xml -DskipTests install'
             }
-        }    
-        stage ('TEST THE CODE') {
-            steps {
+            post {
+                success {
+                    echo "Now Archiving."
+                    archiveArtifacts artifacts: '**/*.war'
+                }
+            }
+        }
+        stage('Test') {
+           steps {
                 sh 'mvn test'
-            }
-        }
-        stage ('INTEGRATION UNIT TEST') {
+           }
+        }       
+        stage('Checkstyle Analysis'){
             steps {
-                sh 'mvn install -DskipUnitTest'
+                sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
-        }
         stage('CHECKSTYLE ANALYSIS'){
             steps{
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
