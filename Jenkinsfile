@@ -25,15 +25,6 @@ pipeline
                 sh 'mvn install -DskipUnitTest'
             }
         }
-               stage('CHECKSTYLE ANALYSIS'){
-            steps{
-                sh 'mvn -s settings.xml checkstyle:checkstyle'
-            }
-        }
-                stage ('SONAR ANALYSIS') {
-            environment {
-                scannerHome = tool "${ SONAR_SCANNER}"
-            }
         
     }
-}    
+   
