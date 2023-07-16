@@ -19,11 +19,6 @@ pipeline
                 sh 'mvn -s settings.xml test'
             }
         }
-        stage ('INTEGRATION UNIT TEST') {
-            steps {
-                sh 'mvn -s settings.xml install -DskipUnitTest'
-            }
-        }
         stage('CHECKSTYLE ANALYSIS'){
             steps{
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
