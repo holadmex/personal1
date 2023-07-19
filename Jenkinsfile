@@ -12,22 +12,28 @@ pipeline {
         }
         stage ('BUILD THE APPLICATION') {
             steps {
-                sh 'mvn -s settings.xml install -DeskipTest'
+                sh 'mvn  install -DeskipTest'
+            }
+            post {
+                success{
+                    echo 'Now archiving'
+                    archiveArtifacts artifacts: 'target/*war*', followSymlinks: false
+                }
             }
         }
         stage ('TEST') {
             steps {
-                sh 'mvn -s settings.xml test'
+                sh 'mvn test'
             }
         }
         stage ('UNIT TEST') {
             steps {
-                sh 'mvn -s settings.xml test'
+                sh 'mvn test'
             }
         }
         stage ('INTEGRATION TEST') {
             steps {
-                sh 'mvn -s settings.xml verify -DskipUnitTest'
+                sh 'mvn verify -DskipUnitTest'
             }
         }
         stage ('CHECKSTYLE ANALYSIS') {
