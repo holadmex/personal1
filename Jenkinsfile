@@ -1,30 +1,57 @@
 pipeline {
     agent any
-    tools{
+    tools {
         jdk 'JDK'
         maven 'Maven'
     }
     stages {
-        stage ('FETCH CODE FROM GITHUB') {
-            steps{
-                git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
+        stage ('PULL THE APPLICATION FROM GITHUB') {
+            steps {
+                git branch: 'ci-jenkins', url: 'https://github.com/afolagbe/personal.git'
             }
         }
-        stage('BUILD'){
-            steps{
-                sh 'mvn -s settings.xml install -DskipTests'
+        stage ('BUILD THE APPLICATION') {
+            steps {
+                sh 'mvn install -DeskipTest'
             }
-            post{
-                success{
-                    echo 'now archiving'
-                    archiveArtifacts artifacts: 'target/*war*', followSymlinks: false
+        }
+        stage ('TEST') {
+            steps {
+                sh 'mvn -s setting.xml test'
+            }
+        }
+        stage ('UNIT TEST') {
+            steps {
+                sh 'mvn -s setting.xml test'
+            }
+        }
+        stage ('INTEGRATION TEST') {
+            steps {
+                sh 'mvn -s setting.xml verify -DskipUnitTest'
+            }
+        }
+        stage ('CHECKSTYLE ANALYSIS') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+        stage ('SonarQube analysis') {
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar') {
+                     sh 'mvn clean package sonar:sonar'
+                    }
                 }
             }
         }
-        stage('TEST'){
+        stage ("Quality Gate") {
             steps{
-                sh 'mvn -s settings.xml test'
+                script{
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
+                }
             }
+    
         }
-    }
-}    
+    }    
+}  
+
