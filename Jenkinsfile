@@ -4,7 +4,12 @@ pipeline {
         jdk 'JDK'
         maven 'Maven'
     }
-    stages{
+    stages {
+        stage ('FETCH CODE FROM GITHUB') {
+            steps{
+                git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
+            }
+        }
         stage('BUILD'){
             steps{
                 sh 'mvn -s settings.xml install -DskipTests'
