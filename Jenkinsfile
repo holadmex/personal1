@@ -45,12 +45,11 @@ pipeline {
             }
         }
         stage ("Quality Gate") {
-            steps (
-                script (
+            steps {
+                script {
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
-
-                )
-            )
+                }
+            }
             }
         }
     }    
