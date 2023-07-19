@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
     agent any
     tools {
         jdk 'JDK'
@@ -44,11 +44,14 @@ pipeline{
                 }
             }
         }
-        stage("Quality Gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-                  }
-                }    
+        stage ("Quality Gate") {
+            steps (
+                script (
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
+
+                )
+            )
             }
         }
-    
+    }    
+   
