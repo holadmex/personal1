@@ -4,10 +4,6 @@ pipeline{
         jdk 'JDK'
         maven 'Maven'
     }
-    environment {
-        SONAR_SCANNER = 'SonarQube Scanner'
-        SONAR_SERVER = 'SonarQube Server'
-    }
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
