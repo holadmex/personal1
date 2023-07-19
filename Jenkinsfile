@@ -17,17 +17,17 @@ pipeline {
         }
         stage ('TEST') {
             steps {
-                sh 'mvn -s setting.xml test'
+                sh 'mvn test'
             }
         }
         stage ('UNIT TEST') {
             steps {
-                sh 'mvn -s setting.xml test'
+                sh 'mvn test'
             }
         }
         stage ('INTEGRATION TEST') {
             steps {
-                sh 'mvn -s setting.xml verify -DskipUnitTest'
+                sh 'mvn verify -DskipUnitTest'
             }
         }
         stage ('CHECKSTYLE ANALYSIS') {
