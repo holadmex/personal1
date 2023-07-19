@@ -40,11 +40,10 @@ pipeline{
             }
         }
         stage {'Sonarqube analysis'} {
-            steps {
-                withSonarQubeEnv(credentialsId: 'sonar') {
-                    sh 'mvn clean package sonar:sonar'
-                }
+            enviroment {
+                scannerHome = tools "${ SONAR_SCANNER }"
             }
-        }
+   
         }
     }
+}
