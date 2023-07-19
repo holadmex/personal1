@@ -5,15 +5,6 @@ pipeline {
         maven 'Maven'
     }
     environment{
-    SNAPREPO = 'vpro-snapshots'
-    NEXUSUSER = 'admin'
-    nexuspassword = 'admin'
-    releaserepo = 'vpro-release'
-    centralrepo = 'vpro-mavan-central'
-    nexusip = '172.31.10.98'
-    nexusport = '8081'
-    nexusgroup = 'vpro-maven-group'
-    nexuslogin = 'nexuslogin'
     SONARSERVER = 'Sonarserver'
     SONAR_SCANNER = 'Sonarscanner'
     }
