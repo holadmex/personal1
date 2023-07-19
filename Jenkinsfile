@@ -16,8 +16,6 @@ pipeline {
                 }
             }
         }
-            }
-        }
         stage ('TEST') {
             steps {
                 sh 'mvn -s setting.xml test'
