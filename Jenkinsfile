@@ -12,22 +12,22 @@ pipeline {
         }
         stage ('BUILD THE APPLICATION') {
             steps {
-                sh 'mvn install -DeskipTest'
+                sh 'mvn -s setting.xml install -DeskipTest'
             }
         }
         stage ('TEST') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -s setting.xml test'
             }
         }
         stage ('UNIT TEST') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -s setting.xml test'
             }
         }
         stage ('INTEGRATION TEST') {
             steps {
-                sh 'mvn verify -DskipUnitTest'
+                sh 'mvn -s setting.xml verify -DskipUnitTest'
             }
         }
         stage ('CHECKSTYLE ANALYSIS') {
@@ -50,7 +50,7 @@ pipeline {
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
                 }
             }
-            }
+    
         }
     }    
-   
+}  
