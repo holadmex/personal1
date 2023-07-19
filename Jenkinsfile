@@ -12,7 +12,7 @@ pipeline {
         }
         stage ('BUILD THE APPLICATION') {
             steps {
-                sh 'mvn -s setting.xml install -DeskipTest'
+                sh 'mvn install -DeskipTest'
             }
         }
         stage ('TEST') {
