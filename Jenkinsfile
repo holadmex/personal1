@@ -39,7 +39,7 @@ pipeline{
                 sh 'mvn checkstyle:checkstyle'
             }
         }
-        stage {'SonarQube analysis'} {
+        stage ('SonarQube analysis') {
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar') {
