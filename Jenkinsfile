@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage ('BUILD') {
             steps {
-                sh 'mvn -s setting.xml install -DskiptTest'
+                sh 'mvn -s settings.xml install -DskiptTest'
             }
             post {
                 success {
@@ -18,17 +18,17 @@ pipeline {
         }
         stage ('TEST') {
             steps {
-                sh 'mvn -s setting.xml test'
+                sh 'mvn -s settings.xml test'
             }
         }
         stage ('UNIT TEST') {
             steps {
-                sh 'mvn -s setting.xml test'
+                sh 'mvn -s settings.xml test'
             }
         }
         stage ('INTEGRATION TEST') {
             steps {
-                sh 'mvn -s setting.xml verify -DskipUnitTest'
+                sh 'mvn -s settings.xml verify -DskipUnitTest'
             }
         }
         stage ('CHECKSTYLE ANALYSIS') {
