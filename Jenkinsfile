@@ -5,14 +5,17 @@ pipeline {
         maven 'Maven'
     }
     stages {
-        stage ('PULL THE APPLICATION FROM GITHUB') {
+        stage ('BUILD') {
             steps {
-                git branch: 'ci-jenkins', url: 'https://github.com/afolagbe/personal.git'
+                sh 'mvn -s setting.xml install -DskiptTest'
+            }
+            post {
+                success {
+                    echo 'Now archiving'
+                    archiveArtifacts artifacts: 'target/*war*', followSymlinks: false
+                }
             }
         }
-        stage ('BUILD THE APPLICATION') {
-            steps {
-                sh 'mvn install -DeskipTest'
             }
         }
         stage ('TEST') {
