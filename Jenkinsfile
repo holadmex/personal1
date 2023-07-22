@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
-                git branch: 'ci-jenkins', url: 'https://github.com/holadmex/personal1.git'
+                git branch: 'ci-jenkins', credentialsId: 'git', url: 'https://github.com/holadmex/personal1.git'
             }
         }
         stage ('BUILD THE APPLICATION') {
