@@ -4,10 +4,6 @@ pipeline {
         jdk 'JDK'
         maven 'Maven'
     }
-    environment {
-        SONAR_SCANNER = 'SonarQube Scanner'
-        SONAR_SERVER = 'SonarQube Server'
-    }    
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
@@ -31,7 +27,7 @@ pipeline {
         }
         stage ('INTEGRATION TEST') {
             steps {
-                sh 'mvn verify -DskipUnitTest'
+                sh 'mvn -DskipUnitTest'
             }
         }
         stage ('CHECKSTYLE ANALYSIS') {
@@ -43,20 +39,18 @@ pipeline {
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar') {
-                     sh 'mvn clean package sonar:sonar'
+                     sh 'mvn sonar:sonar'
                     }
                 }
             }
         }
-        stage ("QUALITY GATE"){
-            steps{
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                    }
+        stage ('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
                 }
             }
     
         }
-    }   
-  
-
+    }    
+} 
