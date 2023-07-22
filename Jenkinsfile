@@ -35,7 +35,7 @@ pipeline {
                 sh 'mvn checkstyle:checkstyle'
             }
         }
-        stage ('SonarQube analysis') {
+        stage ('SonarQube Analysis') {
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar') {
@@ -45,12 +45,11 @@ pipeline {
             }
         }
         stage ('Quality Gate') {
-            steps {
-                script {
+            steps{
+                script{
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
                 }
             }
-    
         }
-    }    
-} 
+    }
+}    
