@@ -72,13 +72,13 @@ pipeline {
         stage ('UPLOAD ARTIFACT TO NEXUS') {
             steps{
                 nexusArtifactUploader {
-                    nexusVersion: 'nexus3',
+                    nexusVersion: 'nexus 3',
                     protocol: 'http',
                     nexusurl: "${nexusip}:${nexusport}",
                     groupid: 'QA',
                     version: "${env_BUILD}-${env_TIMESTAMP}",
                     repository: "${release repo}",
-                    credentialsId: "${NEXUS_LOGIN}",
+                    credentialsId: "${nexuslogin}",
                     artifacts: [
                         [artifactId: 'hey-thereapp',
                         classifier: '',
