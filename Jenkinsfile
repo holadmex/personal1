@@ -81,7 +81,7 @@ pipeline {
                     credentialsId: "${nexuslogin}"
                     artifacts: [
                         [artifactId: 'hey-thereapp'
-                        classifier: ''
+                        classifier: 
                         file: 'target/vprofile-v2.war'
                         type: 'war']
                     ]
