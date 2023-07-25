@@ -4,6 +4,18 @@ pipeline {
         jdk 'JDK'
         maven 'Maven'
     }
+    enviroment {
+        USERNAME = 'admin'
+        nexuspassword = 'Janet125'
+        nexuslogin = 'admin'
+        nexusip = '18.212.187.137'
+        nexusport = '8081'
+        centralrepo = 'hey-there'
+        releaserepo = 'hey-there1'
+        nexusgroup = 'hey-there-group'
+        SNAPrepo = 'hey-there2'
+
+    }
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
@@ -15,6 +27,12 @@ pipeline {
                 sh 'mvn install -DeskipTest'
             }
         }
+        post{
+            success{
+                echo 'now archiving'
+                archiveArtifacts artifacts: '**/*.war', followSymlinks: false
+            }
+        } 
         stage ('TEST') {
             steps {
                 sh 'mvn test'
@@ -49,6 +67,24 @@ pipeline {
                 script{
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
                 }
+            }
+        }
+        stage ('UPLOAD ARTIFACT TO NEXUS') {
+            steps{
+                nexusArtifactUploader {
+                    nexusversion: 'nexus3',
+                    protocol: 'http',
+                    nexusurl: "${nexusip}:${nexusport}",
+                    groupid: 'QA',
+                    version: "${env_BUILD}-${env_TIMESTAMP}",
+                    repository: "${release repo}",
+                    credentialsId: "${NEXUS_LOGIN}",
+                    artifacts: [
+                        [artifactId: 'hey-thereapp',
+                        classifier: '',
+                        file: 'target/vprofile-v2.war'
+                        type: 'war']
+                    ]
             }
         }
     }
