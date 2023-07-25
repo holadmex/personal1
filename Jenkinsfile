@@ -74,14 +74,14 @@ pipeline {
                 nexusArtifactUploader {
                     nexusVersion: 'nexus3'
                     protocol: 'http'
-                    nexusurl: "${nexusip}:${nexusport}",
-                    groupid: 'QA',
-                    version: "${env_BUILD}-${env_TIMESTAMP}",
-                    repository: "${release repo}",
-                    credentialsId: "${nexuslogin}",
+                    nexusurl: "${nexusip}:${nexusport}"
+                    groupid: 'QA'
+                    version: "${env_BUILD}-${env_TIMESTAMP}"
+                    repository: "${release repo}"
+                    credentialsId: "${nexuslogin}"
                     artifacts: [
-                        [artifactId: 'hey-thereapp',
-                        classifier: '',
+                        [artifactId: 'hey-thereapp'
+                        classifier: ''
                         file: 'target/vprofile-v2.war'
                         type: 'war']
                     ]
