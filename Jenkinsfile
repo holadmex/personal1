@@ -4,18 +4,6 @@ pipeline {
         jdk 'JDK'
         maven 'Maven'
     }
-    enviroment {
-        USERNAME = 'admin'
-        nexuspassword = 'Janet125'
-        nexuslogin = 'admin'
-        nexusip = '18.212.187.137'
-        nexusport = '8081'
-        centralrepo = 'hey-there'
-        releaserepo = 'hey-there1'
-        nexusgroup = 'hey-there-group'
-        SNAPrepo = 'hey-there2'
-
-    }
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
@@ -25,12 +13,6 @@ pipeline {
         stage ('BUILD THE APPLICATION') {
             steps {
                 sh 'mvn install -DeskipTest'
-            }
-        }
-        post{
-            success{
-                echo 'now archiving'
-                archiveArtifacts artifacts: '**/*.war', followSymlinks: false
             }
         } 
         stage ('TEST') {
