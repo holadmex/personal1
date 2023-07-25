@@ -70,22 +70,27 @@ pipeline {
             }
         }
         stage ('UPLOAD ARTIFACT TO NEXUS') {
-            steps{
-                nexusArtifactUploader {
-                    nexusVersion: 'nexus3'
-                    protocol: 'http'
-                    nexusurl: "${nexusip}:${nexusport}"
-                    groupid: 'QA'
-                    version: "${env_BUILD}-${env_TIMESTAMP}"
-                    repository: "${release repo}"
-                    credentialsId: "${nexuslogin}"
-                    artifacts: [
-                        [artifactId: 'hey-thereapp'
-                        file: 'target/vprofile-v2.war'
-                        type: 'war']
-                    ]
+            steps {
+                script {
+                    nexusArtifactUploader artifacts: 
+                    [
+                        [
+                            artifactId: 'vprofile', 
+                            classifier: '', file: 'target/vprofile-v2.war', 
+                            type: 'war'
+                            ]
+
+                    ], 
+                    credentialsId: 'nexuslogin', 
+                    groupId: 'com.visualpathit', 
+                    nexusUrl: '18.212.187.137:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: 'hey-there', 
+                    version: 'v2'
+                }
                 }    
             }
         }
     }
-}    
+  
