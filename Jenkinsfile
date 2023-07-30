@@ -4,6 +4,19 @@ pipeline {
         jdk 'JDK'
         maven 'Maven'
     }
+    environment {
+        SNAP_REPO = 'vpro-snapshots'
+        NEXUS_USER = 'admin'
+        NEXUS_PASS = 'admin'
+        RELEASE_REPO = 'vpro-release'
+        CENTRAL_REPO = 'Vpro-maven-central'
+        NEXUS_IP = '34.201.66.122'
+        NEXUS_PORT = '8081'
+        NEXUS_GRP_REPO = 'vpro-maven-group'
+        NEXUS_LOGIN = 'nexuslogin'
+        SONAR_SERVER = 'SONARSERVER'
+        SONAR_SCANNER = 'SONARSCANNER'
+    }    
     stages {
         stage ('PULL THE APPLICATION FROM GITHUB') {
             steps {
@@ -53,23 +66,20 @@ pipeline {
         }
         stage ('UPLOAD ARTIFACT TO NEXUS') {
             steps {
-                script {
-                    nexusArtifactUploader artifacts: 
-                    [
-                        [
-                            artifactId: 'vprofile', 
-                            classifier: '', file: 'target/vprofile-v2.war', 
-                            type: 'war'
-                            ]
-
-                    ], 
-                    credentialsId: 'nexuslogin', 
-                    groupId: 'com.visualpathit', 
-                    nexusUrl: '18.212.187.137:8081', 
-                    nexusVersion: 'nexus3', 
-                    protocol: 'http', 
-                    repository: 'hey-there', 
-                    version: 'v2'
+                nexusArtifactUploader{
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
+                    groupId: 'QA',
+                    version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                    repository: "${RELEASE_REPO}",
+                    credentialsId: "${NEXUS_LOGIN}",
+                    artifacts: [
+                        [artifactId: 'vproapp',
+                        classifier: '',
+                        file: 'target/vprofile-v2.war',
+                        type: 'war']
+                    ]
                 }
                 }    
             }
