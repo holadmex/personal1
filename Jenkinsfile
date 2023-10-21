@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage ('FETCH CODE FROM GITHUB') {
             steps{
-                git branch: 'ci-jenkins', url: 'git@github.com:holadmex/personal1.git'
+                git branch: 'ci-jenkins', credentialsId: 'gitlogin', url: 'git@github.com:holadmex/personal1.git'
             }
         }
         stage ('BUILD THE CODE') {
