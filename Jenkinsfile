@@ -15,6 +15,7 @@ pipeline {
                 sh 'mvn install -DskipTest'
             }
         }
+        
         post {
             success {
                 echo 'Archiving artifacts now.'
