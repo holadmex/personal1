@@ -15,12 +15,12 @@ pipeline {
                 sh 'mvn install -DskipTest'
             }
         } 
-        post (
-            success {
-                echo 'Archiving artifacts now.'
-                archiveArtifacts artifacts: '**/*.war'
+            post {
+                success {
+                    echo 'Archiving artifacts now.'
+                    archiveArtifacts artifacts: '**/*.war'
             }
-        )
+        }
         stage ('UNIT TEST') {
             steps{
                 sh 'mvn test'
