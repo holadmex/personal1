@@ -55,7 +55,6 @@ pipeline{
                 }    
             }
         }
-    }
         stage ('UploadArtifact') {
             steps{
                 nexusArtifactUploader(
@@ -71,8 +70,9 @@ pipeline{
                         classifier: '',
                         file: 'target/vprofile-v2.war',
                         type: 'war']
-                  ]
+                  ]  
             )
+            }
         }
     }
 }
