@@ -1,3 +1,7 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',
+    'FALIURE': 'danger'
+]
 pipeline{
     agent any
     tools {
@@ -12,7 +16,7 @@ pipeline{
         }
         stage ('BUILD THE CODE') {
             steps{
-                sh 'mvn install -DskipTest'
+                sh 'mvn clean install -DskipTest'
             }
             post {
                 success {
@@ -75,6 +79,14 @@ pipeline{
                   ]  
             )
             }
+        }
+    }
+    post {
+        always {
+            echo 'Slack Notifications.'
+            slackSend channel: '#jenkinsprojectcicd',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
     }
 }
